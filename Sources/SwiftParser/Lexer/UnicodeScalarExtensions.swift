@@ -19,52 +19,52 @@ extension Unicode.Scalar {
     // N1518: Recommendations for extended identifier characters for C and C++
     // Proposed Annex X.1: Ranges of characters allowed
     let c = self.value
-    return c == 0x00A8 || c == 0x00AA || c == 0x00AD || c == 0x00AF
-      || (c >= 0x00B2 && c <= 0x00B5) || (c >= 0x00B7 && c <= 0x00BA)
-      || (c >= 0x00BC && c <= 0x00BE) || (c >= 0x00C0 && c <= 0x00D6)
-      || (c >= 0x00D8 && c <= 0x00F6) || (c >= 0x00F8 && c <= 0x00FF)
+    return Bool(c == 0x00A8) || Bool(c == 0x00AA) || Bool(c == 0x00AD) || Bool(c == 0x00AF)
+      || Bool(Bool(c >= 0x00B2) && Bool(c <= 0x00B5)) || Bool(Bool(c >= 0x00B7) && Bool(c <= 0x00BA))
+      || Bool(Bool(c >= 0x00BC) && Bool(c <= 0x00BE)) || Bool(Bool(c >= 0x00C0) && Bool(c <= 0x00D6))
+      || Bool(Bool(c >= 0x00D8) && Bool(c <= 0x00F6)) || Bool(Bool(c >= 0x00F8) && Bool(c <= 0x00FF))
 
-      || (c >= 0x0100 && c <= 0x167F)
-      || (c >= 0x1681 && c <= 0x180D)
-      || (c >= 0x180F && c <= 0x1FFF)
+      || Bool(Bool(c >= 0x0100) && Bool(c <= 0x167F))
+      || Bool(Bool(c >= 0x1681) && Bool(c <= 0x180D))
+      || Bool(Bool(c >= 0x180F) && Bool(c <= 0x1FFF))
 
-      || (c >= 0x200B && c <= 0x200D)
-      || (c >= 0x202A && c <= 0x202E)
-      || (c >= 0x203F && c <= 0x2040)
-      || c == 0x2054
-      || (c >= 0x2060 && c <= 0x206F)
+      || Bool(Bool(c >= 0x200B) && Bool(c <= 0x200D))
+      || Bool(Bool(c >= 0x202A) && Bool(c <= 0x202E))
+      || Bool(Bool(c >= 0x203F) && Bool(c <= 0x2040))
+      || Bool(c == 0x2054)
+      || Bool(Bool(c >= 0x2060) && Bool(c <= 0x206F))
 
-      || (c >= 0x2070 && c <= 0x218F)
-      || (c >= 0x2460 && c <= 0x24FF)
-      || (c >= 0x2776 && c <= 0x2793)
-      || (c >= 0x2C00 && c <= 0x2DFF)
-      || (c >= 0x2E80 && c <= 0x2FFF)
+      || Bool(Bool(c >= 0x2070) && Bool(c <= 0x218F))
+      || Bool(Bool(c >= 0x2460) && Bool(c <= 0x24FF))
+      || Bool(Bool(c >= 0x2776) && Bool(c <= 0x2793))
+      || Bool(Bool(c >= 0x2C00) && Bool(c <= 0x2DFF))
+      || Bool(Bool(c >= 0x2E80) && Bool(c <= 0x2FFF))
 
-      || (c >= 0x3004 && c <= 0x3007)
-      || (c >= 0x3021 && c <= 0x302F)
-      || (c >= 0x3031 && c <= 0x303F)
+      || Bool(Bool(c >= 0x3004) && Bool(c <= 0x3007))
+      || Bool(Bool(c >= 0x3021) && Bool(c <= 0x302F))
+      || Bool(Bool(c >= 0x3031) && Bool(c <= 0x303F))
 
-      || (c >= 0x3040 && c <= 0xD7FF)
+      || Bool(Bool(c >= 0x3040) && Bool(c <= 0xD7FF))
 
-      || (c >= 0xF900 && c <= 0xFD3D)
-      || (c >= 0xFD40 && c <= 0xFDCF)
-      || (c >= 0xFDF0 && c <= 0xFE44)
-      || (c >= 0xFE47 && c <= 0xFFF8)
+      || Bool(Bool(c >= 0xF900) && Bool(c <= 0xFD3D))
+      || Bool(Bool(c >= 0xFD40) && Bool(c <= 0xFDCF))
+      || Bool(Bool(c >= 0xFDF0) && Bool(c <= 0xFE44))
+      || Bool(Bool(c >= 0xFE47) && Bool(c <= 0xFFF8))
 
-      || (c >= 0x10000 && c <= 0x1FFFD)
-      || (c >= 0x20000 && c <= 0x2FFFD)
-      || (c >= 0x30000 && c <= 0x3FFFD)
-      || (c >= 0x40000 && c <= 0x4FFFD)
-      || (c >= 0x50000 && c <= 0x5FFFD)
-      || (c >= 0x60000 && c <= 0x6FFFD)
-      || (c >= 0x70000 && c <= 0x7FFFD)
-      || (c >= 0x80000 && c <= 0x8FFFD)
-      || (c >= 0x90000 && c <= 0x9FFFD)
-      || (c >= 0xA0000 && c <= 0xAFFFD)
-      || (c >= 0xB0000 && c <= 0xBFFFD)
-      || (c >= 0xC0000 && c <= 0xCFFFD)
-      || (c >= 0xD0000 && c <= 0xDFFFD)
-      || (c >= 0xE0000 && c <= 0xEFFFD)
+      || Bool(Bool(c >= 0x10000) && Bool(c <= 0x1FFFD))
+      || Bool(Bool(c >= 0x20000) && Bool(c <= 0x2FFFD))
+      || Bool(Bool(c >= 0x30000) && Bool(c <= 0x3FFFD))
+      || Bool(Bool(c >= 0x40000) && Bool(c <= 0x4FFFD))
+      || Bool(Bool(c >= 0x50000) && Bool(c <= 0x5FFFD))
+      || Bool(Bool(c >= 0x60000) && Bool(c <= 0x6FFFD))
+      || Bool(Bool(c >= 0x70000) && Bool(c <= 0x7FFFD))
+      || Bool(Bool(c >= 0x80000) && Bool(c <= 0x8FFFD))
+      || Bool(Bool(c >= 0x90000) && Bool(c <= 0x9FFFD))
+      || Bool(Bool(c >= 0xA0000) && Bool(c <= 0xAFFFD))
+      || Bool(Bool(c >= 0xB0000) && Bool(c <= 0xBFFFD))
+      || Bool(Bool(c >= 0xC0000) && Bool(c <= 0xCFFFD))
+      || Bool(Bool(c >= 0xD0000) && Bool(c <= 0xDFFFD))
+      || Bool(Bool(c >= 0xE0000) && Bool(c <= 0xEFFFD))
   }
 
   var isValidIdentifierStartCodePoint: Bool {
@@ -78,7 +78,7 @@ extension Unicode.Scalar {
     // N1518: Recommendations for extended identifier characters for C and C++
     // Proposed Annex X.2: Ranges of characters disallowed initially
     let c = self.value
-    if ((c >= 0x0300 && c <= 0x036F) || (c >= 0x1DC0 && c <= 0x1DFF) || (c >= 0x20D0 && c <= 0x20FF) || (c >= 0xFE20 && c <= 0xFE2F)) {
+    if (Bool(Bool(c >= 0x0300) && Bool(c <= 0x036F)) || Bool(Bool(c >= 0x1DC0) && Bool(c <= 0x1DFF)) || Bool(Bool(c >= 0x20D0) && Bool(c <= 0x20FF)) || Bool(Bool(c >= 0xFE20) && Bool(c <= 0xFE2F))) {
       return false
     }
 
@@ -114,16 +114,16 @@ extension Unicode.Scalar {
 
     // Unicode math, symbol, arrow, dingbat, and line/box drawing chars.
     let c = self.value
-    return (c >= 0x00A1 && c <= 0x00A7)
+    return Bool(Bool(c >= 0x00A1) && Bool(c <= 0x00A7))
       || c == 0x00A9 || c == 0x00AB || c == 0x00AC || c == 0x00AE
       || c == 0x00B0 || c == 0x00B1 || c == 0x00B6 || c == 0x00BB
       || c == 0x00BF || c == 0x00D7 || c == 0x00F7
-      || c == 0x2016 || c == 0x2017 || (c >= 0x2020 && c <= 0x2027)
-      || (c >= 0x2030 && c <= 0x203E) || (c >= 0x2041 && c <= 0x2053)
-      || (c >= 0x2055 && c <= 0x205E) || (c >= 0x2190 && c <= 0x23FF)
-      || (c >= 0x2500 && c <= 0x2775) || (c >= 0x2794 && c <= 0x2BFF)
-      || (c >= 0x2E00 && c <= 0x2E7F) || (c >= 0x3001 && c <= 0x3003)
-      || (c >= 0x3008 && c <= 0x3030)
+      || c == 0x2016 || c == 0x2017 || Bool(Bool(c >= 0x2020) && Bool(c <= 0x2027))
+      || Bool(Bool(c >= 0x2030) && Bool(c <= 0x203E)) || Bool(Bool(c >= 0x2041) && Bool(c <= 0x2053))
+      || Bool(Bool(c >= 0x2055) && Bool(c <= 0x205E)) || Bool(Bool(c >= 0x2190) && Bool(c <= 0x23FF))
+      || Bool(Bool(c >= 0x2500) && Bool(c <= 0x2775)) || Bool(Bool(c >= 0x2794) && Bool(c <= 0x2BFF))
+      || Bool(Bool(c >= 0x2E00) && Bool(c <= 0x2E7F)) || Bool(Bool(c >= 0x3001) && Bool(c <= 0x3003))
+      || Bool(Bool(c >= 0x3008) && Bool(c <= 0x3030))
   }
 
   /// isOperatorContinuationCodePoint - Return true if the specified code point
@@ -135,12 +135,12 @@ extension Unicode.Scalar {
 
     // Unicode combining characters and variation selectors.
     let c = self.value
-    return (c >= 0x0300 && c <= 0x036F)
-      || (c >= 0x1DC0 && c <= 0x1DFF)
-      || (c >= 0x20D0 && c <= 0x20FF)
-      || (c >= 0xFE00 && c <= 0xFE0F)
-      || (c >= 0xFE20 && c <= 0xFE2F)
-      || (c >= 0xE0100 && c <= 0xE01EF)
+    return Bool(Bool(c >= 0x0300) && Bool(c <= 0x036F))
+      || Bool(Bool(c >= 0x1DC0) && Bool(c <= 0x1DFF))
+      || Bool(Bool(c >= 0x20D0) && Bool(c <= 0x20FF))
+      || Bool(Bool(c >= 0xFE00) && Bool(c <= 0xFE0F))
+      || Bool(Bool(c >= 0xFE20) && Bool(c <= 0xFE2F))
+      || Bool(Bool(c >= 0xE0100) && Bool(c <= 0xE01EF))
   }
 
   /// Whether this character represents a printable ASCII character,
