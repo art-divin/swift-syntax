@@ -103,11 +103,11 @@ struct GenerateSwiftSyntax: AsyncParsableCommand {
       GeneratedFileSpec(swiftSyntaxGeneratedDir + ["ChildNameForKeyPath.swift"], childNameForKeyPathFile),
       GeneratedFileSpec(swiftSyntaxGeneratedDir + ["Keyword.swift"], keywordFile),
       GeneratedFileSpec(swiftSyntaxGeneratedDir + ["raw", "RawSyntaxValidation.swift"], rawSyntaxValidationFile),
-      GeneratedFileSpec(swiftSyntaxGeneratedDir + ["RenamedChildrenCompatibility.swift"], renamedChildrenCompatibilityFile),
+
       GeneratedFileSpec(swiftSyntaxGeneratedDir + ["RenamedNodesCompatibility.swift"], renamedSyntaxNodesFile),
       GeneratedFileSpec(swiftSyntaxGeneratedDir + ["SyntaxAnyVisitor.swift"], syntaxAnyVisitorFile),
-      GeneratedFileSpec(swiftSyntaxGeneratedDir + ["SyntaxBaseNodes.swift"], syntaxBaseNodesFile),
-      GeneratedFileSpec(swiftSyntaxGeneratedDir + ["SyntaxCollections.swift"], syntaxCollectionsFile),
+
+
       GeneratedFileSpec(swiftSyntaxGeneratedDir + ["SyntaxEnum.swift"], syntaxEnumFile),
       GeneratedFileSpec(swiftSyntaxGeneratedDir + ["SyntaxKind.swift"], syntaxKindFile),
       GeneratedFileSpec(swiftSyntaxGeneratedDir + ["SyntaxRewriter.swift"], syntaxRewriterFile),
@@ -127,6 +127,20 @@ struct GenerateSwiftSyntax: AsyncParsableCommand {
       ),
       GeneratedFileSpec(swiftSyntaxBuilderGeneratedDir + ["RenamedChildrenBuilderCompatibility.swift"], renamedChildrenBuilderCompatibilityFile),
     ]
+
+
+    for (idx, file) in renamedChildrenCompatibilityFiles.enumerated() {
+      fileSpecs.append(GeneratedFileSpec(swiftSyntaxGeneratedDir + ["RenamedChildrenCompatibility+\(idx).swift"], file))
+    }
+
+    for (idx, file) in syntaxBaseNodesFiles.enumerated() {
+      fileSpecs.append(GeneratedFileSpec(swiftSyntaxGeneratedDir + ["SyntaxBaseNodes+\(idx).swift"], file))
+    }
+
+    for (idx, file) in syntaxCollectionsFiles.enumerated() {
+      fileSpecs.append(GeneratedFileSpec(swiftSyntaxGeneratedDir + ["SyntaxCollections+\(idx).swift"], file))
+    }
+
     // This split of letters produces files for the syntax nodes that have about equal size, which improves compile time
 
     fileSpecs += ["AB", "C", "D", "EF", "GHI", "JKLMN", "OP", "QRS", "TUVWXYZ"].flatMap { (letters: String) -> [GeneratedFileSpec] in

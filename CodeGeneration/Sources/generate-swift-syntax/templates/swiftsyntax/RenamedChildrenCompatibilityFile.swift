@@ -15,15 +15,17 @@ import SwiftSyntaxBuilder
 import SyntaxSupport
 import Utils
 
-let renamedChildrenCompatibilityFile = try! SourceFileSyntax(leadingTrivia: copyrightHeader) {
+let renamedChildrenCompatibilityFiles: [SourceFileSyntax] = {
+  var retVal: [SourceFileSyntax] = []
   for layoutNode in SYNTAX_NODES.compactMap(\.layoutNode).filter({ $0.children.hasDeprecatedChild }) {
-    try ExtensionDeclSyntax("extension \(layoutNode.type.syntaxBaseName)") {
-      for child in layoutNode.children {
-        if let deprecatedVarName = child.deprecatedVarName {
-          let childType: TypeSyntax = child.kind.isNodeChoicesEmpty ? child.syntaxNodeKind.syntaxType : child.syntaxChoicesType
-          let type = child.isOptional ? TypeSyntax("\(childType)?") : childType
+    retVal.append(try! SourceFileSyntax(leadingTrivia: copyrightHeader) {
+      try ExtensionDeclSyntax("extension \(layoutNode.type.syntaxBaseName)") {
+        for child in layoutNode.children {
+          if let deprecatedVarName = child.deprecatedVarName {
+            let childType: TypeSyntax = child.kind.isNodeChoicesEmpty ? child.syntaxNodeKind.syntaxType : child.syntaxChoicesType
+            let type = child.isOptional ? TypeSyntax("\(childType)?") : childType
 
-          DeclSyntax(
+            DeclSyntax(
             """
             @available(*, deprecated, renamed: "\(child.varOrCaseName)")
             public var \(deprecatedVarName): \(type) {
@@ -35,33 +37,33 @@ let renamedChildrenCompatibilityFile = try! SourceFileSyntax(leadingTrivia: copy
               }
             }
             """
-          )
-          if let childNode = SYNTAX_NODE_MAP[child.syntaxNodeKind]?.collectionNode,
-            !child.isUnexpectedNodes,
-            case .collection(_, collectionElementName: let collectionElementName, _, deprecatedCollectionElementName: let deprecatedCollectionElementName) =
-              child.kind,
-            let deprecatedCollectionElementName
-          {
-            let childEltType = childNode.collectionElementType.syntaxBaseName
+            )
+            if let childNode = SYNTAX_NODE_MAP[child.syntaxNodeKind]?.collectionNode,
+               !child.isUnexpectedNodes,
+               case .collection(_, collectionElementName: let collectionElementName, _, deprecatedCollectionElementName: let deprecatedCollectionElementName) =
+                child.kind,
+               let deprecatedCollectionElementName
+            {
+              let childEltType = childNode.collectionElementType.syntaxBaseName
 
-            DeclSyntax(
+              DeclSyntax(
               """
               @available(*, deprecated, renamed: "add\(raw: collectionElementName)")
               public func add\(raw: deprecatedCollectionElementName)(_ element: \(childEltType)) -> \(layoutNode.kind.syntaxType) {
                 return add\(raw: collectionElementName)(element)
               }
               """
-            )
+              )
+            }
           }
         }
-      }
 
-      let deprecatedNames = layoutNode.children
-        .filter { !$0.isUnexpectedNodes && $0.hasDeprecatedName }
-        .map { $0.varOrCaseName.description }
-        .joined(separator: ", ")
+        let deprecatedNames = layoutNode.children
+          .filter { !$0.isUnexpectedNodes && $0.hasDeprecatedName }
+          .map { $0.varOrCaseName.description }
+          .joined(separator: ", ")
 
-      let renamedArguments =
+        let renamedArguments =
         layoutNode.children.map { child in
           if child.isUnexpectedNodes {
             return "_:"
@@ -70,31 +72,33 @@ let renamedChildrenCompatibilityFile = try! SourceFileSyntax(leadingTrivia: copy
           }
         }.joined(separator: "")
 
-      let renamedName = "\(layoutNode.type.syntaxBaseName)(leadingTrivia:\(renamedArguments)trailingTrivia:)"
+        let renamedName = "\(layoutNode.type.syntaxBaseName)(leadingTrivia:\(renamedArguments)trailingTrivia:)"
 
-      try! InitializerDeclSyntax(
+        try! InitializerDeclSyntax(
         """
         @available(*, deprecated, renamed: \(literal: renamedName))
         @_disfavoredOverload
         \(layoutNode.generateInitializerDeclHeader(useDeprecatedChildName: true))
         """
-      ) {
-        FunctionCallExprSyntax(callee: ExprSyntax("self.init")) {
-          LabeledExprSyntax(label: "leadingTrivia", expression: ExprSyntax("leadingTrivia"))
-          for child in layoutNode.children {
-            if child.isUnexpectedNodes {
-              LabeledExprSyntax(expression: ExprSyntax("\(child.deprecatedVarName ?? child.varOrCaseName)"))
-            } else {
-              LabeledExprSyntax(
-                label: child.varOrCaseName,
-                colon: .colonToken(),
-                expression: DeclReferenceExprSyntax(baseName: child.deprecatedVarName ?? child.varOrCaseName)
-              )
+        ) {
+          FunctionCallExprSyntax(callee: ExprSyntax("self.init")) {
+            LabeledExprSyntax(label: "leadingTrivia", expression: ExprSyntax("leadingTrivia"))
+            for child in layoutNode.children {
+              if child.isUnexpectedNodes {
+                LabeledExprSyntax(expression: ExprSyntax("\(child.deprecatedVarName ?? child.varOrCaseName)"))
+              } else {
+                LabeledExprSyntax(
+                  label: child.varOrCaseName,
+                  colon: .colonToken(),
+                  expression: DeclReferenceExprSyntax(baseName: child.deprecatedVarName ?? child.varOrCaseName)
+                )
+              }
             }
+            LabeledExprSyntax(label: "trailingTrivia", expression: ExprSyntax("trailingTrivia"))
           }
-          LabeledExprSyntax(label: "trailingTrivia", expression: ExprSyntax("trailingTrivia"))
         }
       }
-    }
+    })
   }
-}
+  return retVal
+}()

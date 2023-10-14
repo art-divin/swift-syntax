@@ -15,17 +15,19 @@ import SwiftSyntaxBuilder
 import SyntaxSupport
 import Utils
 
-let syntaxBaseNodesFile = SourceFileSyntax(leadingTrivia: copyrightHeader) {
+let syntaxBaseNodesFiles: [SourceFileSyntax] = {
+  var retVal: [SourceFileSyntax] = []
   for node in SYNTAX_NODES where node.kind.isBase {
-    let documentation = SwiftSyntax.Trivia(joining: [
-      node.documentation,
-      node.subtypes,
-    ])
-    DeclSyntax(
+    retVal.append(SourceFileSyntax(leadingTrivia: copyrightHeader) {
+      let documentation = SwiftSyntax.Trivia(joining: [
+        node.documentation,
+        node.subtypes,
+      ])
+      DeclSyntax(
       """
       // MARK: - \(node.kind.syntaxType)
 
-      /// Protocol to which all ``\(node.kind.syntaxType)`` nodes conform. 
+      /// Protocol to which all ``\(node.kind.syntaxType)`` nodes conform.
       ///
       /// Extension point to add common methods to all ``\(node.kind.syntaxType)`` nodes.
       ///
@@ -33,16 +35,16 @@ let syntaxBaseNodesFile = SourceFileSyntax(leadingTrivia: copyrightHeader) {
       \(node.apiAttributes())\
       public protocol \(node.kind.protocolType): \(node.base.protocolType) {}
       """
-    )
+      )
 
-    DeclSyntax(
+      DeclSyntax(
       #"""
       /// Extension of ``\#(node.kind.protocolType)`` to provide casting methods.
       ///
       /// These methods enable casting between syntax node types within the same
       /// base node protocol hierarchy (e.g., ``DeclSyntaxProtocol``).
       ///
-      /// While ``SyntaxProtocol`` offers general casting methods (``SyntaxProtocol.as(_:)``, 
+      /// While ``SyntaxProtocol`` offers general casting methods (``SyntaxProtocol.as(_:)``,
       /// ``SyntaxProtocol.is(_:)``, and ``SyntaxProtocol.cast(_:)``), these often aren't
       /// appropriate for use on types conforming to a specific base node protocol
       /// like ``\#(node.kind.protocolType)``. That's because at this level,
@@ -51,7 +53,7 @@ let syntaxBaseNodesFile = SourceFileSyntax(leadingTrivia: copyrightHeader) {
       ///
       /// To guide developers toward correct usage, this extension provides overloads
       /// of these casting methods that are restricted to the same base node type.
-      /// Furthermore, it marks the inherited casting methods from ``SyntaxProtocol`` as 
+      /// Furthermore, it marks the inherited casting methods from ``SyntaxProtocol`` as
       /// deprecated, indicating that they will always fail when used in this context.
       extension \#(node.kind.protocolType) {
         /// Checks if the current syntax node can be cast to a given specialized syntax type.
@@ -144,10 +146,10 @@ let syntaxBaseNodesFile = SourceFileSyntax(leadingTrivia: copyrightHeader) {
         }
       }
       """#
-    )
+      )
 
-    try! ExtensionDeclSyntax("public extension Syntax") {
-      DeclSyntax(
+      try! ExtensionDeclSyntax("public extension Syntax") {
+        DeclSyntax(
         """
         /// Check whether the non-type erased version of this syntax node conforms to
         /// \(node.kind.protocolType).
@@ -157,9 +159,9 @@ let syntaxBaseNodesFile = SourceFileSyntax(leadingTrivia: copyrightHeader) {
           return self.asProtocol(\(node.kind.protocolType).self) != nil
         }
         """
-      )
+        )
 
-      DeclSyntax(
+        DeclSyntax(
         """
         /// Return the non-type erased version of this syntax node if it conforms to
         /// \(node.kind.protocolType). Otherwise return nil.
@@ -169,19 +171,19 @@ let syntaxBaseNodesFile = SourceFileSyntax(leadingTrivia: copyrightHeader) {
           return self.asProtocol(SyntaxProtocol.self) as? \(node.kind.protocolType)
         }
         """
-      )
-    }
+        )
+      }
 
-    try! StructDeclSyntax(
+      try! StructDeclSyntax(
       """
       \(documentation)
       \(node.apiAttributes())\
       public struct \(node.kind.syntaxType): \(node.kind.protocolType), SyntaxHashable
       """
-    ) {
-      DeclSyntax("public let _syntaxNode: Syntax")
+      ) {
+        DeclSyntax("public let _syntaxNode: Syntax")
 
-      DeclSyntax(
+        DeclSyntax(
         """
         /// Create a ``\(node.kind.syntaxType)`` node from a specialized syntax node.
         public init(_ syntax: some \(node.kind.protocolType)) {
@@ -191,9 +193,9 @@ let syntaxBaseNodesFile = SourceFileSyntax(leadingTrivia: copyrightHeader) {
           self = Syntax(syntax).cast(Self.self)
         }
         """
-      )
+        )
 
-      DeclSyntax(
+        DeclSyntax(
         """
         /// Create a ``\(node.kind.syntaxType)`` node from a specialized optional syntax node.
         public init?(_ syntax: (some \(node.kind.protocolType))?) {
@@ -201,9 +203,9 @@ let syntaxBaseNodesFile = SourceFileSyntax(leadingTrivia: copyrightHeader) {
           self.init(syntax)
         }
         """
-      )
+        )
 
-      DeclSyntax(
+        DeclSyntax(
         """
         public init(fromProtocol syntax: \(node.kind.protocolType)) {
           // We know this cast is going to succeed. Go through init(_: SyntaxData)
@@ -212,9 +214,9 @@ let syntaxBaseNodesFile = SourceFileSyntax(leadingTrivia: copyrightHeader) {
           self = Syntax(syntax).cast(Self.self)
         }
         """
-      )
+        )
 
-      DeclSyntax(
+        DeclSyntax(
         """
         /// Create a ``\(node.kind.syntaxType)`` node from a specialized optional syntax node.
         public init?(fromProtocol syntax: \(node.kind.protocolType)?) {
@@ -222,35 +224,35 @@ let syntaxBaseNodesFile = SourceFileSyntax(leadingTrivia: copyrightHeader) {
           self.init(fromProtocol: syntax)
         }
         """
-      )
+        )
 
-      try InitializerDeclSyntax("public init?(_ node: some SyntaxProtocol)") {
-        try SwitchExprSyntax("switch node.raw.kind") {
-          SwitchCaseListSyntax {
-            SwitchCaseSyntax(
-              label: .case(
-                SwitchCaseLabelSyntax {
-                  for childNode in SYNTAX_NODES where childNode.base == node.kind {
-                    SwitchCaseItemSyntax(
-                      pattern: ExpressionPatternSyntax(
-                        expression: ExprSyntax(".\(childNode.varOrCaseName)")
+        try InitializerDeclSyntax("public init?(_ node: some SyntaxProtocol)") {
+          try SwitchExprSyntax("switch node.raw.kind") {
+            SwitchCaseListSyntax {
+              SwitchCaseSyntax(
+                label: .case(
+                  SwitchCaseLabelSyntax {
+                    for childNode in SYNTAX_NODES where childNode.base == node.kind {
+                      SwitchCaseItemSyntax(
+                        pattern: ExpressionPatternSyntax(
+                          expression: ExprSyntax(".\(childNode.varOrCaseName)")
+                        )
                       )
-                    )
+                    }
                   }
-                }
-              )
-            ) {
-              ExprSyntax("self._syntaxNode = node._syntaxNode")
-            }
+                )
+              ) {
+                ExprSyntax("self._syntaxNode = node._syntaxNode")
+              }
 
-            SwitchCaseSyntax("default:") {
-              StmtSyntax("return nil")
+              SwitchCaseSyntax("default:") {
+                StmtSyntax("return nil")
+              }
             }
           }
         }
-      }
 
-      DeclSyntax(
+        DeclSyntax(
         """
         /// Syntax nodes always conform to `\(node.kind.protocolType)`. This API is just
         /// added for consistency.
@@ -261,9 +263,9 @@ let syntaxBaseNodesFile = SourceFileSyntax(leadingTrivia: copyrightHeader) {
           return true
         }
         """
-      )
+        )
 
-      DeclSyntax(
+        DeclSyntax(
         """
         /// Return the non-type erased version of this syntax node.
         ///
@@ -272,55 +274,58 @@ let syntaxBaseNodesFile = SourceFileSyntax(leadingTrivia: copyrightHeader) {
           return Syntax(self).asProtocol(\(node.kind.protocolType).self)!
         }
         """
-      )
+        )
 
-      try VariableDeclSyntax("public static var structure: SyntaxNodeStructure") {
-        let choices = ArrayExprSyntax {
-          for childNode in SYNTAX_NODES where childNode.base == node.kind {
-            ArrayElementSyntax(
-              leadingTrivia: .newline,
-              expression: ExprSyntax(".node(\(childNode.kind.syntaxType).self)")
-            )
+        try VariableDeclSyntax("public static var structure: SyntaxNodeStructure") {
+          let choices = ArrayExprSyntax {
+            for childNode in SYNTAX_NODES where childNode.base == node.kind {
+              ArrayElementSyntax(
+                leadingTrivia: .newline,
+                expression: ExprSyntax(".node(\(childNode.kind.syntaxType).self)")
+              )
+            }
           }
+
+          StmtSyntax("return .choices(\(choices))")
         }
-
-        StmtSyntax("return .choices(\(choices))")
       }
-    }
 
-    leafProtocolDecl(type: node.kind.leafProtocolType, inheritedType: node.kind.protocolType)
-    leafProtocolExtension(type: node.kind.leafProtocolType, inheritedType: node.kind.protocolType)
-  }
+      leafProtocolDecl(type: node.kind.leafProtocolType, inheritedType: node.kind.protocolType)
+      leafProtocolExtension(type: node.kind.leafProtocolType, inheritedType: node.kind.protocolType)
 
-  try! ExtensionDeclSyntax(
+
+      try! ExtensionDeclSyntax(
     """
     // MARK: - Syntax
 
     extension Syntax
     """
-  ) {
-    try VariableDeclSyntax("public static var structure: SyntaxNodeStructure") {
-      let choices = ArrayExprSyntax {
-        ArrayElementSyntax(
-          leadingTrivia: .newline,
-          expression: ExprSyntax(".node(TokenSyntax.self)")
-        )
+      ) {
+        try VariableDeclSyntax("public static var structure: SyntaxNodeStructure") {
+          let choices = ArrayExprSyntax {
+            ArrayElementSyntax(
+              leadingTrivia: .newline,
+              expression: ExprSyntax(".node(TokenSyntax.self)")
+            )
 
-        for node in NON_BASE_SYNTAX_NODES {
-          ArrayElementSyntax(
-            leadingTrivia: .newline,
-            expression: ExprSyntax(".node(\(node.kind.syntaxType).self)")
-          )
+            for node in NON_BASE_SYNTAX_NODES {
+              ArrayElementSyntax(
+                leadingTrivia: .newline,
+                expression: ExprSyntax(".node(\(node.kind.syntaxType).self)")
+              )
+            }
+          }
+
+          StmtSyntax("return .choices(\(choices))")
         }
       }
 
-      StmtSyntax("return .choices(\(choices))")
-    }
+      leafProtocolDecl(type: "_LeafSyntaxNodeProtocol", inheritedType: "SyntaxProtocol")
+      leafProtocolExtension(type: "_LeafSyntaxNodeProtocol", inheritedType: "SyntaxProtocol")
+    })
   }
-
-  leafProtocolDecl(type: "_LeafSyntaxNodeProtocol", inheritedType: "SyntaxProtocol")
-  leafProtocolExtension(type: "_LeafSyntaxNodeProtocol", inheritedType: "SyntaxProtocol")
-}
+  return retVal
+}()
 
 private func leafProtocolDecl(type: TypeSyntax, inheritedType: TypeSyntax) -> DeclSyntax {
   DeclSyntax(
