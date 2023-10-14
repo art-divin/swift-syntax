@@ -130,10 +130,16 @@ struct GenerateSwiftSyntax: AsyncParsableCommand {
     // This split of letters produces files for the syntax nodes that have about equal size, which improves compile time
 
     fileSpecs += ["AB", "C", "D", "EF", "GHI", "JKLMN", "OP", "QRS", "TUVWXYZ"].flatMap { (letters: String) -> [GeneratedFileSpec] in
-      [
-        GeneratedFileSpec(swiftSyntaxGeneratedDir + ["syntaxNodes", "SyntaxNodes\(letters).swift"], syntaxNode(nodesStartingWith: Array(letters))),
-        GeneratedFileSpec(swiftSyntaxGeneratedDir + ["raw", "RawSyntaxNodes\(letters).swift"], rawSyntaxNodesFile(nodesStartingWith: Array(letters))),
-      ]
+      let syntaxNodesfileSyntaxes = syntaxNode(nodesStartingWith: Array(letters))
+      var syntaxNodesFileSpecs: [GeneratedFileSpec] = []
+      for (idx, fileSyntax) in syntaxNodesfileSyntaxes.enumerated() {
+        syntaxNodesFileSpecs.append(GeneratedFileSpec(swiftSyntaxGeneratedDir + ["syntaxNodes", "SyntaxNodes\(letters)+\(idx).swift"], fileSyntax))
+      }
+      let rawSyntaxNodesFileSyntaxes = rawSyntaxNodesFile(nodesStartingWith: Array(letters))
+      for (idx, fileSyntax) in rawSyntaxNodesFileSyntaxes.enumerated() {
+        syntaxNodesFileSpecs.append(GeneratedFileSpec(swiftSyntaxGeneratedDir + ["raw", "RawSyntaxNodes\(letters)+\(idx).swift"], fileSyntax))
+      }
+      return syntaxNodesFileSpecs
     }
 
     let modules = Set(fileSpecs.compactMap { $0.pathComponents.first })

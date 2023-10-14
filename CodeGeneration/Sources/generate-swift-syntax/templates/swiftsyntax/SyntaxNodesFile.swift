@@ -19,9 +19,10 @@ import Utils
 /// files at a manageable file size, it is to be invoked multiple times with the
 /// variable `emitKind` set to a base kind listed in
 /// It then only emits those syntax nodes whose base kind are that specified kind.
-func syntaxNode(nodesStartingWith: [Character]) -> SourceFileSyntax {
-  SourceFileSyntax(leadingTrivia: copyrightHeader) {
+func syntaxNode(nodesStartingWith: [Character]) -> [SourceFileSyntax] {
+  var retVal: [SourceFileSyntax] = []
     for node in SYNTAX_NODES.compactMap(\.layoutNode) where nodesStartingWith.contains(node.kind.syntaxType.description.first!) {
+      retVal.append(SourceFileSyntax(leadingTrivia: copyrightHeader) {
       // We are actually handling this node now
       try! StructDeclSyntax(
         """
@@ -206,8 +207,11 @@ func syntaxNode(nodesStartingWith: [Character]) -> SourceFileSyntax {
           StmtSyntax("return .layout(\(layout))")
         }
       }
+
     }
+      )
   }
+  return retVal
 }
 
 private func generateSyntaxChildChoices(for child: Child) throws -> EnumDeclSyntax? {
