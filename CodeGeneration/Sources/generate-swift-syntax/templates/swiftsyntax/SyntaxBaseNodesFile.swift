@@ -292,38 +292,37 @@ let syntaxBaseNodesFiles: [SourceFileSyntax] = {
 
       leafProtocolDecl(type: node.kind.leafProtocolType, inheritedType: node.kind.protocolType)
       leafProtocolExtension(type: node.kind.leafProtocolType, inheritedType: node.kind.protocolType)
-
-
-      try! ExtensionDeclSyntax(
-    """
-    // MARK: - Syntax
-
-    extension Syntax
-    """
-      ) {
-        try VariableDeclSyntax("public static var structure: SyntaxNodeStructure") {
-          let choices = ArrayExprSyntax {
-            ArrayElementSyntax(
-              leadingTrivia: .newline,
-              expression: ExprSyntax(".node(TokenSyntax.self)")
-            )
-
-            for node in NON_BASE_SYNTAX_NODES {
-              ArrayElementSyntax(
-                leadingTrivia: .newline,
-                expression: ExprSyntax(".node(\(node.kind.syntaxType).self)")
-              )
-            }
-          }
-
-          StmtSyntax("return .choices(\(choices))")
-        }
-      }
-
-      leafProtocolDecl(type: "_LeafSyntaxNodeProtocol", inheritedType: "SyntaxProtocol")
-      leafProtocolExtension(type: "_LeafSyntaxNodeProtocol", inheritedType: "SyntaxProtocol")
     })
   }
+  retVal.append(SourceFileSyntax(leadingTrivia: copyrightHeader) {
+    try! ExtensionDeclSyntax(
+  """
+  // MARK: - Syntax
+
+  extension Syntax
+  """
+    ) {
+      try VariableDeclSyntax("public static var structure: SyntaxNodeStructure") {
+        let choices = ArrayExprSyntax {
+          ArrayElementSyntax(
+            leadingTrivia: .newline,
+            expression: ExprSyntax(".node(TokenSyntax.self)")
+          )
+
+          for node in NON_BASE_SYNTAX_NODES {
+            ArrayElementSyntax(
+              leadingTrivia: .newline,
+              expression: ExprSyntax(".node(\(node.kind.syntaxType).self)")
+            )
+          }
+        }
+
+        StmtSyntax("return .choices(\(choices))")
+      }
+    }
+    leafProtocolDecl(type: "_LeafSyntaxNodeProtocol", inheritedType: "SyntaxProtocol")
+    leafProtocolExtension(type: "_LeafSyntaxNodeProtocol", inheritedType: "SyntaxProtocol")
+  })
   return retVal
 }()
 
