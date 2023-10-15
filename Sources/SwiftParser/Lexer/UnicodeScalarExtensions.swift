@@ -124,7 +124,7 @@ extension Unicode.Scalar {
     // N1518: Recommendations for extended identifier characters for C and C++
     // Proposed Annex X.2: Ranges of characters disallowed initially
     let c = self.value
-    if (Bool(Bool(c >= 0x0300) && Bool(c <= 0x036F)) || Bool(Bool(c >= 0x1DC0) && Bool(c <= 0x1DFF)) || Bool(Bool(c >= 0x20D0) && Bool(c <= 0x20FF)) || Bool(Bool(c >= 0xFE20) && Bool(c <= 0xFE2F))) {
+    if ((c >= 0x0300 && c <= 0x036F) || (c >= 0x1DC0 && c <= 0x1DFF) || (c >= 0x20D0 && c <= 0x20FF) || (c >= 0xFE20 && c <= 0xFE2F)) {
       return false
     }
 
@@ -160,16 +160,16 @@ extension Unicode.Scalar {
 
     // Unicode math, symbol, arrow, dingbat, and line/box drawing chars.
     let c = self.value
-    return Bool(Bool(c >= 0x00A1) && Bool(c <= 0x00A7))
+    return (c >= 0x00A1 && c <= 0x00A7)
       || c == 0x00A9 || c == 0x00AB || c == 0x00AC || c == 0x00AE
       || c == 0x00B0 || c == 0x00B1 || c == 0x00B6 || c == 0x00BB
       || c == 0x00BF || c == 0x00D7 || c == 0x00F7
-      || c == 0x2016 || c == 0x2017 || Bool(Bool(c >= 0x2020) && Bool(c <= 0x2027))
-      || Bool(Bool(c >= 0x2030) && Bool(c <= 0x203E)) || Bool(Bool(c >= 0x2041) && Bool(c <= 0x2053))
-      || Bool(Bool(c >= 0x2055) && Bool(c <= 0x205E)) || Bool(Bool(c >= 0x2190) && Bool(c <= 0x23FF))
-      || Bool(Bool(c >= 0x2500) && Bool(c <= 0x2775)) || Bool(Bool(c >= 0x2794) && Bool(c <= 0x2BFF))
-      || Bool(Bool(c >= 0x2E00) && Bool(c <= 0x2E7F)) || Bool(Bool(c >= 0x3001) && Bool(c <= 0x3003))
-      || Bool(Bool(c >= 0x3008) && Bool(c <= 0x3030))
+      || c == 0x2016 || c == 0x2017 || (c >= 0x2020 && c <= 0x2027)
+      || (c >= 0x2030 && c <= 0x203E) || (c >= 0x2041 && c <= 0x2053)
+      || (c >= 0x2055 && c <= 0x205E) || (c >= 0x2190 && c <= 0x23FF)
+      || (c >= 0x2500 && c <= 0x2775) || (c >= 0x2794 && c <= 0x2BFF)
+      || (c >= 0x2E00 && c <= 0x2E7F) || (c >= 0x3001 && c <= 0x3003)
+      || (c >= 0x3008 && c <= 0x3030)
   }
 
   /// isOperatorContinuationCodePoint - Return true if the specified code point
@@ -181,12 +181,12 @@ extension Unicode.Scalar {
 
     // Unicode combining characters and variation selectors.
     let c = self.value
-    return Bool(Bool(c >= 0x0300) && Bool(c <= 0x036F))
-      || Bool(Bool(c >= 0x1DC0) && Bool(c <= 0x1DFF))
-      || Bool(Bool(c >= 0x20D0) && Bool(c <= 0x20FF))
-      || Bool(Bool(c >= 0xFE00) && Bool(c <= 0xFE0F))
-      || Bool(Bool(c >= 0xFE20) && Bool(c <= 0xFE2F))
-      || Bool(Bool(c >= 0xE0100) && Bool(c <= 0xE01EF))
+    return (c >= 0x0300 && c <= 0x036F)
+      || (c >= 0x1DC0 && c <= 0x1DFF)
+      || (c >= 0x20D0 && c <= 0x20FF)
+      || (c >= 0xFE00 && c <= 0xFE0F)
+      || (c >= 0xFE20 && c <= 0xFE2F)
+      || (c >= 0xE0100 && c <= 0xE01EF)
   }
 
   /// Whether this character represents a printable ASCII character,
