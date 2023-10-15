@@ -341,3 +341,12 @@ if useLocalDependencies {
     .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.2")
   ]
 }
+
+for target in package.targets {
+ target.swiftSettings = target.swiftSettings ?? []
+ target.swiftSettings?.append(
+   .unsafeFlags([
+    "-Xfrontend", "-warn-long-function-bodies=30", "-Xfrontend", "-warn-long-expression-type-checking=30"
+   ])
+ )
+}
