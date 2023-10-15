@@ -100,7 +100,10 @@ public struct SyntaxText {
     guard !self.isEmpty && !other.isEmpty else {
       return self.isEmpty && other.isEmpty
     }
-    return (Bool(other.baseAddress! <= self.baseAddress!) && UnsafePointer<UInt8>(self.baseAddress! + count) <= UnsafePointer<UInt8>(other.baseAddress! + other.count))
+    let first: Bool = other.baseAddress! <= self.baseAddress!
+    let second = UnsafePointer<UInt8>(self.baseAddress! + count)
+    let third = UnsafePointer<UInt8>(other.baseAddress! + other.count)
+    return (first && second <= third)
   }
 
   /// Returns `true` if `other` is a substring of this ``SyntaxText``.
