@@ -729,144 +729,288 @@ extension TokenKind {
   @_spi(RawSyntax)
   public static func fromRaw(kind rawKind: RawTokenKind, text: String) -> TokenKind {
     switch rawKind {
-    case .arrow:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.arrow:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.arrow
-    case .atSign:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.atSign:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.atSign
-    case .backslash:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.backslash:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.backslash
-    case .backtick:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.backtick:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.backtick
-    case .binaryOperator:
+    case RawTokenKind.binaryOperator:
       return TokenKind.binaryOperator(text)
-    case .colon:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.colon:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.colon
-    case .comma:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.comma:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.comma
-    case .dollarIdentifier:
+    case RawTokenKind.dollarIdentifier:
       return TokenKind.dollarIdentifier(text)
-    case .ellipsis:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.ellipsis:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.ellipsis
-    case .endOfFile:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.endOfFile:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.endOfFile
-    case .equal:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.equal:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.equal
-    case .exclamationMark:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.exclamationMark:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.exclamationMark
-    case .floatLiteral:
+    case RawTokenKind.floatLiteral:
       return TokenKind.floatLiteral(text)
-    case .identifier:
+    case RawTokenKind.identifier:
       return TokenKind.identifier(text)
-    case .infixQuestionMark:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.infixQuestionMark:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.infixQuestionMark
-    case .integerLiteral:
+    case RawTokenKind.integerLiteral:
       return TokenKind.integerLiteral(text)
-    case .keyword:
+    case RawTokenKind.keyword:
       var text = text
       return text.withSyntaxText { (text: SyntaxText) in
         return TokenKind.keyword(Keyword(text)!)
       }
-    case .leftAngle:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.leftAngle:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.leftAngle
-    case .leftBrace:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.leftBrace:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.leftBrace
-    case .leftParen:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.leftParen:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.leftParen
-    case .leftSquare:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.leftSquare:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.leftSquare
-    case .multilineStringQuote:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.multilineStringQuote:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.multilineStringQuote
-    case .period:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.period:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.period
-    case .postfixOperator:
+    case RawTokenKind.postfixOperator:
       return TokenKind.postfixOperator(text)
-    case .postfixQuestionMark:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.postfixQuestionMark:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.postfixQuestionMark
-    case .pound:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.pound:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.pound
-    case .poundAvailable:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.poundAvailable:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.poundAvailable
-    case .poundElse:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.poundElse:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.poundElse
-    case .poundElseif:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.poundElseif:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.poundElseif
-    case .poundEndif:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.poundEndif:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.poundEndif
-    case .poundIf:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.poundIf:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.poundIf
-    case .poundSourceLocation:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.poundSourceLocation:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.poundSourceLocation
-    case .poundUnavailable:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.poundUnavailable:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.poundUnavailable
-    case .prefixAmpersand:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.prefixAmpersand:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.prefixAmpersand
-    case .prefixOperator:
+    case RawTokenKind.prefixOperator:
       return TokenKind.prefixOperator(text)
-    case .rawStringPoundDelimiter:
+    case RawTokenKind.rawStringPoundDelimiter:
       return TokenKind.rawStringPoundDelimiter(text)
-    case .regexLiteralPattern:
+    case RawTokenKind.regexLiteralPattern:
       return TokenKind.regexLiteralPattern(text)
-    case .regexPoundDelimiter:
+    case RawTokenKind.regexPoundDelimiter:
       return TokenKind.regexPoundDelimiter(text)
-    case .regexSlash:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.regexSlash:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.regexSlash
-    case .rightAngle:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.rightAngle:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.rightAngle
-    case .rightBrace:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.rightBrace:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.rightBrace
-    case .rightParen:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.rightParen:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.rightParen
-    case .rightSquare:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.rightSquare:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.rightSquare
-    case .semicolon:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.semicolon:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.semicolon
-    case .shebang:
+    case RawTokenKind.shebang:
       return TokenKind.shebang(text)
-    case .singleQuote:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.singleQuote:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.singleQuote
-    case .stringQuote:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.stringQuote:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.stringQuote
-    case .stringSegment:
+    case RawTokenKind.stringSegment:
       return TokenKind.stringSegment(text)
-    case .unknown:
+    case RawTokenKind.unknown:
       return TokenKind.unknown(text)
-    case .wildcard:
-      precondition(text.isEmpty || rawKind.defaultText.map(String.init) == text)
+    case RawTokenKind.wildcard:
+      let rawKindString: String? = rawKind.defaultText.map(String.init)
+      let first: Bool = text.isEmpty
+      let second: Bool = rawKindString == text
+      let third = first || second
+      precondition(third)
       return TokenKind.wildcard
     }
   }
