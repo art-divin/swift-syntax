@@ -19,98 +19,58 @@ extension Unicode.Scalar {
     // N1518: Recommendations for extended identifier characters for C and C++
     // Proposed Annex X.1: Ranges of characters allowed
     let c = self.value
+    return (c == 0x00A8) as Bool
+      || (c == 0x00AA) as Bool
+      || (c == 0x00AD) as Bool
+      || (c == 0x00AF) as Bool
+      || (c >= 0x00B2 && c <= 0x00B5) as Bool
+      || (c >= 0x00B7 && c <= 0x00BA) as Bool
+      || (c >= 0x00BC && c <= 0x00BE) as Bool
+      || (c >= 0x00C0 && c <= 0x00D6) as Bool
+      || (c >= 0x00D8 && c <= 0x00F6) as Bool
+      || (c >= 0x00F8 && c <= 0x00FF) as Bool
 
-    let first: Bool = Bool(c == 0x00A8)
-    let second: Bool = Bool(c == 0x00AA)
-    let third: Bool = Bool(c == 0x00AD)
-    let fourth: Bool = Bool(c == 0x00AF)
-    let fifth: Bool = Bool(Bool(c >= 0x00B2) && Bool(c <= 0x00B5))
-    let sixth: Bool = Bool(Bool(c >= 0x00B7) && Bool(c <= 0x00BA))
-    let seventh: Bool = Bool(Bool(c >= 0x00BC) && Bool(c <= 0x00BE))
-    let eighth: Bool = Bool(Bool(c >= 0x00C0) && Bool(c <= 0x00D6))
-    let nineth: Bool = Bool(Bool(c >= 0x00D8) && Bool(c <= 0x00F6))
-    let tenth: Bool = Bool(Bool(c >= 0x00F8) && Bool(c <= 0x00FF))
-    let eleventh: Bool = Bool(Bool(c >= 0x0100) && Bool(c <= 0x167F))
-    let twelfth: Bool = Bool(Bool(c >= 0x1681) && Bool(c <= 0x180D))
-    let thirteenth: Bool = Bool(Bool(c >= 0x180F) && Bool(c <= 0x1FFF))
-    let fourteenth: Bool = Bool(Bool(c >= 0x200B) && Bool(c <= 0x200D))
-    let fifteenth: Bool = Bool(Bool(c >= 0x202A) && Bool(c <= 0x202E))
-    let sixteenth: Bool = Bool(Bool(c >= 0x203F) && Bool(c <= 0x2040))
-    let seventeenth: Bool = Bool(c == 0x2054)
-    let eighteenth: Bool = Bool(Bool(c >= 0x2060) && Bool(c <= 0x206F))
-    let nineteenth: Bool = Bool(Bool(c >= 0x2070) && Bool(c <= 0x218F))
-    let twentieth: Bool = Bool(Bool(c >= 0x2460) && Bool(c <= 0x24FF))
-    let twentyfirst: Bool = Bool(Bool(c >= 0x2776) && Bool(c <= 0x2793))
-    let twentysecond: Bool = Bool(Bool(c >= 0x2C00) && Bool(c <= 0x2DFF))
-    let twentythird: Bool = Bool(Bool(c >= 0x2E80) && Bool(c <= 0x2FFF))
-    let twentyfourth: Bool = Bool(Bool(c >= 0x3004) && Bool(c <= 0x3007))
-    let twentyfifth: Bool = Bool(Bool(c >= 0x3021) && Bool(c <= 0x302F))
-    let twentysixth: Bool = Bool(Bool(c >= 0x3031) && Bool(c <= 0x303F))
-    let twentyseventh: Bool = Bool(Bool(c >= 0x3040) && Bool(c <= 0xD7FF))
-    let twentyeighth: Bool = Bool(Bool(c >= 0xF900) && Bool(c <= 0xFD3D))
-    let twentyninth: Bool = Bool(Bool(c >= 0xFD40) && Bool(c <= 0xFDCF))
-    let thirtieth: Bool = Bool(Bool(c >= 0xFDF0) && Bool(c <= 0xFE44))
-    let thirtyfirst: Bool = Bool(Bool(c >= 0xFE47) && Bool(c <= 0xFFF8))
-    let thirtysecond: Bool = Bool(Bool(c >= 0x10000) && Bool(c <= 0x1FFFD))
-    let thirtythird: Bool = Bool(Bool(c >= 0x20000) && Bool(c <= 0x2FFFD))
-    let thirtyfourth: Bool = Bool(Bool(c >= 0x30000) && Bool(c <= 0x3FFFD))
-    let thirtyfifth: Bool = Bool(Bool(c >= 0x40000) && Bool(c <= 0x4FFFD))
-    let thirtysixth: Bool = Bool(Bool(c >= 0x50000) && Bool(c <= 0x5FFFD))
-    let thirtyseventh: Bool = Bool(Bool(c >= 0x60000) && Bool(c <= 0x6FFFD))
-    let thirtyeighth: Bool = Bool(Bool(c >= 0x70000) && Bool(c <= 0x7FFFD))
-    let thirtyninth: Bool = Bool(Bool(c >= 0x80000) && Bool(c <= 0x8FFFD))
-    let fortieth: Bool = Bool(Bool(c >= 0x90000) && Bool(c <= 0x9FFFD))
-    let fortyfirst: Bool = Bool(Bool(c >= 0xA0000) && Bool(c <= 0xAFFFD))
-    let fortysecond: Bool = Bool(Bool(c >= 0xB0000) && Bool(c <= 0xBFFFD))
-    let fortythird: Bool = Bool(Bool(c >= 0xC0000) && Bool(c <= 0xCFFFD))
-    let fortyfourth: Bool = Bool(Bool(c >= 0xD0000) && Bool(c <= 0xDFFFD))
-    let fortyfifth: Bool = Bool(Bool(c >= 0xE0000) && Bool(c <= 0xEFFFD))
-    return first
-    || second
-    || third
-    || fourth
-    || fifth
-    || sixth
-    || seventh
-    || eighth
-    || nineth
-    || tenth
-    || eleventh
-    || twelfth
-    || thirteenth
-    || fourteenth
-    || fifteenth
-    || sixteenth
-    || seventeenth
-    || eighteenth
-    || nineteenth
-    || twentieth
-    || twentyfirst
-    || twentysecond
-    || twentythird
-    || twentyfourth
-    || twentyfifth
-    || twentysixth
-    || twentyseventh
-    || twentyeighth
-    || twentyninth
-    || thirtieth
-    || thirtyfirst
-    || thirtysecond
-    || thirtythird
-    || thirtyfourth
-    || thirtyfifth
-    || thirtysixth
-    || thirtyseventh
-    || thirtyeighth
-    || thirtyninth
-    || fortieth
-    || fortyfirst
-    || fortysecond
-    || fortythird
-    || fortyfourth
-    || fortyfifth
+      || (c >= 0x0100 && c <= 0x167F) as Bool
+      || (c >= 0x1681 && c <= 0x180D) as Bool
+      || (c >= 0x180F && c <= 0x1FFF) as Bool
 
+      || (c >= 0x200B && c <= 0x200D) as Bool
+      || (c >= 0x202A && c <= 0x202E) as Bool
+      || (c >= 0x203F && c <= 0x2040) as Bool
+      || (c == 0x2054) as Bool
+      || (c >= 0x2060 && c <= 0x206F) as Bool
+
+      || (c >= 0x2070 && c <= 0x218F) as Bool
+      || (c >= 0x2460 && c <= 0x24FF) as Bool
+      || (c >= 0x2776 && c <= 0x2793) as Bool
+      || (c >= 0x2C00 && c <= 0x2DFF) as Bool
+      || (c >= 0x2E80 && c <= 0x2FFF) as Bool
+
+      || (c >= 0x3004 && c <= 0x3007) as Bool
+      || (c >= 0x3021 && c <= 0x302F) as Bool
+      || (c >= 0x3031 && c <= 0x303F) as Bool
+
+      || (c >= 0x3040 && c <= 0xD7FF) as Bool
+
+      || (c >= 0xF900 && c <= 0xFD3D) as Bool
+      || (c >= 0xFD40 && c <= 0xFDCF) as Bool
+      || (c >= 0xFDF0 && c <= 0xFE44) as Bool
+      || (c >= 0xFE47 && c <= 0xFFF8) as Bool
+
+      || (c >= 0x10000 && c <= 0x1FFFD) as Bool
+      || (c >= 0x20000 && c <= 0x2FFFD) as Bool
+      || (c >= 0x30000 && c <= 0x3FFFD) as Bool
+      || (c >= 0x40000 && c <= 0x4FFFD) as Bool
+      || (c >= 0x50000 && c <= 0x5FFFD) as Bool
+      || (c >= 0x60000 && c <= 0x6FFFD) as Bool
+      || (c >= 0x70000 && c <= 0x7FFFD) as Bool
+      || (c >= 0x80000 && c <= 0x8FFFD) as Bool
+      || (c >= 0x90000 && c <= 0x9FFFD) as Bool
+      || (c >= 0xA0000 && c <= 0xAFFFD) as Bool
+      || (c >= 0xB0000 && c <= 0xBFFFD) as Bool
+      || (c >= 0xC0000 && c <= 0xCFFFD) as Bool
+      || (c >= 0xD0000 && c <= 0xDFFFD) as Bool
+      || (c >= 0xE0000 && c <= 0xEFFFD) as Bool
   }
 
   var isValidIdentifierStartCodePoint: Bool {

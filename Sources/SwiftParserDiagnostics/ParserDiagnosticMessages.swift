@@ -36,16 +36,21 @@ public extension ParserError {
 }
 
 public protocol ParserNote: NoteMessage {
-  var fixItID: MessageID { get }
+  var noteID: MessageID { get }
 }
 
 public extension ParserNote {
+  @available(*, deprecated, message: "Use noteID instead.", renamed: "noteID")
   static var fixItID: MessageID {
+    return Self.noteID
+  }
+
+  static var noteID: MessageID {
     return MessageID(domain: diagnosticDomain, id: "\(self)")
   }
 
-  var fixItID: MessageID {
-    return Self.fixItID
+  var noteID: MessageID {
+    return Self.noteID
   }
 }
 
@@ -161,6 +166,9 @@ extension DiagnosticMessage where Self == StaticParserError {
   }
   public static var forbiddenInterpolatedString: Self {
     return .init("argument cannot be an interpolated string literal")
+  }
+  public static var genericParamCantBeUsedInEnumCaseDecl: Self {
+    return .init("generic signature cannot be declared in enum 'case'")
   }
   public static var initializerInPattern: Self {
     .init("unexpected initializer in pattern; did you mean to use '='?")
@@ -594,7 +602,7 @@ public struct StaticParserNote: NoteMessage {
     self.messageID = messageID
   }
 
-  public var fixItID: MessageID {
+  public var noteID: MessageID {
     MessageID(domain: diagnosticDomain, id: "\(type(of: self)).\(messageID)")
   }
 }

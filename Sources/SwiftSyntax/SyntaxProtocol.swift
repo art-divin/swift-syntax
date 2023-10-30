@@ -89,7 +89,7 @@ public extension SyntaxProtocol {
     return S.init(self)
   }
 
-  /// Attempts to upcast the current syntax node to ``Syntax`` node..
+  /// Attempts to upcast the current syntax node to ``Syntax`` node.
   ///
   /// - Returns: The ``Syntax`` node created from the current syntax node, as the node can always be upcast to ``Syntax`` node.
   ///
@@ -463,11 +463,12 @@ public extension SyntaxProtocol {
 // MARK: Trivia
 
 public extension SyntaxProtocol {
-  /// The leading trivia of this syntax node. Leading trivia is attached to
-  /// the first token syntax contained by this node. Without such token, this
-  /// property will return nil.
+  /// The leading trivia of this syntax node.
   ///
-  /// Note: ``Trivia`` is not able to represent invalid UTF-8 sequences. To get
+  /// Trivia is always attached to tokens, not to layout nodes. This will return the leading trivia of the first token
+  /// within the subtree. If no such token exists, this returns empty trivia.
+  ///
+  /// - Note: ``Trivia`` is not able to represent invalid UTF-8 sequences. To get
   /// the leading trivia text including all invalid UTF-8 sequences, use
   /// ```
   /// node.syntaxTextBytes.prefix(self.leadingTriviaLength.utf8Length)
@@ -481,9 +482,10 @@ public extension SyntaxProtocol {
     }
   }
 
-  /// The trailing trivia of this syntax node. Trailing trivia is attached to
-  /// the last token syntax contained by this node. Without such token, this
-  /// property will return nil.
+  /// The trailing trivia of this syntax node.
+  ///
+  /// Trivia is always attached to tokens, not to layout nodes. This will return the trailing trivia of the last token
+  /// within the subtree. If no such token exists, this returns empty trivia.
   ///
   /// Note: ``Trivia`` is not able to represent invalid UTF-8 sequences. To get
   /// the leading trivia text including all invalid UTF-8 sequences, use

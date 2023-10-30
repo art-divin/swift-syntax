@@ -172,7 +172,7 @@ let package = Package(
 
     .target(
       name: "SwiftSyntax",
-      dependencies: ["SwiftSyntax509"],
+      dependencies: ["SwiftSyntax509", "SwiftSyntax510", "SwiftSyntax511"],
       exclude: ["CMakeLists.txt"],
       swiftSettings: swiftSyntaxSwiftSettings
     ),
@@ -187,6 +187,16 @@ let package = Package(
 
     .target(
       name: "SwiftSyntax509",
+      dependencies: []
+    ),
+
+    .target(
+      name: "SwiftSyntax510",
+      dependencies: []
+    ),
+
+    .target(
+      name: "SwiftSyntax511",
       dependencies: []
     ),
 
@@ -217,7 +227,7 @@ let package = Package(
 
     .target(
       name: "SwiftSyntaxMacroExpansion",
-      dependencies: ["SwiftSyntax", "SwiftSyntaxBuilder", "SwiftSyntaxMacros", "SwiftDiagnostics"],
+      dependencies: ["SwiftSyntax", "SwiftSyntaxBuilder", "SwiftSyntaxMacros", "SwiftDiagnostics", "SwiftOperators"],
       exclude: ["CMakeLists.txt"]
     ),
 
@@ -292,16 +302,6 @@ let package = Package(
       dependencies: ["_SwiftSyntaxTestSupport", "SwiftRefactor"]
     ),
 
-    // MARK: - Executable targets
-
-    .executableTarget(
-      name: "swift-parser-cli",
-      dependencies: [
-        "_InstructionCounter", "SwiftBasicFormat", "SwiftDiagnostics", "SwiftOperators", "SwiftParser", "SwiftParserDiagnostics", "SwiftSyntax",
-        .product(name: "ArgumentParser", package: "swift-argument-parser"),
-      ]
-    ),
-
     // MARK: - Deprecated targets
 
     // MARK: PerformanceTest
@@ -330,17 +330,6 @@ package.targets.append(
     }
   )
 )
-
-if useLocalDependencies {
-  package.dependencies += [
-    .package(path: "../swift-argument-parser")
-  ]
-} else {
-  // Building standalone.
-  package.dependencies += [
-    .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.2")
-  ]
-}
 
 for target in package.targets {
  target.swiftSettings = target.swiftSettings ?? []
