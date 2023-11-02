@@ -57,6 +57,7 @@ extension PatternSyntaxProtocol {
   /// Force-casts the current syntax node to a given specialized syntax type.
   ///
   /// - Returns: An instance of the specialized type.
+  ///
   /// - Warning: This function will crash if the cast is not possible. Use `as` to safely attempt a cast.
   public func cast<S: PatternSyntaxProtocol>(_ syntaxType: S.Type) -> S {
     return self.as(S.self)!
@@ -66,9 +67,6 @@ extension PatternSyntaxProtocol {
   /// Checks if the current syntax node can be upcast to its base node type (``PatternSyntax``).
   ///
   /// - Returns: `true` since the node can always be upcast to its base node.
-  ///
-  /// - Note: This method overloads the general `is` method and is marked deprecated to produce a warning
-  ///         informing the user that the upcast will always succeed.
   @available(*, deprecated, message: "This cast will always succeed")
   public func `is`(_ syntaxType: PatternSyntax.Type) -> Bool {
     return true
@@ -78,9 +76,6 @@ extension PatternSyntaxProtocol {
   /// Attempts to upcast the current syntax node to its base node type (``PatternSyntax``).
   ///
   /// - Returns: The base node created from the current syntax node, as the node can always be upcast to its base type.
-  ///
-  /// - Note: This method overloads the general `as` method and is marked deprecated to produce a warning
-  ///         informing the user the upcast should be performed using the target base node's initializer.
   @available(*, deprecated, message: "Use `PatternSyntax.init` for upcasting")
   public func `as`(_ syntaxType: PatternSyntax.Type) -> PatternSyntax? {
     return PatternSyntax(self)
@@ -90,49 +85,53 @@ extension PatternSyntaxProtocol {
   /// Force-upcast the current syntax node to its base node type (``PatternSyntax``).
   ///
   /// - Returns: The base node created from the current syntax node, as the node can always be upcast to its base type.
-  ///
-  /// - Note: This method overloads the general `as` method and is marked deprecated to produce a warning
-  ///         informing the user the upcast should be performed using the target base node's initializer.
   @available(*, deprecated, message: "Use `PatternSyntax.init` for upcasting")
   public func cast(_ syntaxType: PatternSyntax.Type) -> PatternSyntax {
     return PatternSyntax(self)
   }
   
 
-  /// Checks if the current syntax node can be cast to a given node type from the different base node protocol hierarchy than ``PatternSyntaxProtocol``.
+  /// Checks if the current syntax node can be cast to a given node type from a base node protocol hierarchy other
+  /// than ``PatternSyntaxProtocol``.
   ///
-  /// - Returns: `false` since the node can not be cast to the node type from different base node protocol hierarchy than ``PatternSyntaxProtocol``.
+  /// - Returns: `true` if the node can be cast, `false` otherwise.
   ///
-  /// - Note: This method overloads the general `is` method and is marked as deprecated to produce a warning,
-  ///         informing the user that the cast will always fail.
-  @available(*, deprecated, message: "This cast will always fail")
+  /// - Note: In most cases, this is comparing a ``PatternSyntaxProtocol`` to a node that is not a
+  ///   ``PatternSyntaxProtocol``, which will always fail. If the `syntaxType` argument is a generic type,
+  ///   constrain it to ``PatternSyntaxProtocol`` instead of ``SyntaxProtocol``.
+  @available(*, deprecated, message: "Type argument should be part of the 'PatternSyntaxProtocol' hierarchy")
   public func `is`<S: SyntaxProtocol>(_ syntaxType: S.Type) -> Bool {
-    return false
+    return self.as(syntaxType) != nil
   }
   
 
-  /// Attempts to cast the current syntax node to a given node type from the different base node protocol hierarchy than ``PatternSyntaxProtocol``.
+  /// Attempts to cast the current syntax node to a given node type from the a base node protocol hierarchy other than
+  /// ``PatternSyntaxProtocol``.
   ///
-  /// - Returns: `nil` since the node can not be cast to the node type from different base node protocol hierarchy than ``PatternSyntaxProtocol``.
+  /// - Returns: An instance of the specialized type, or `nil` if the cast fails.
   ///
-  /// - Note: This method overloads the general `as` method and is marked as deprecated to produce a warning,
-  ///         informing the user that the cast will always fail.
-  @available(*, deprecated, message: "This cast will always fail")
+  /// - Note: In most cases, this is casting a ``PatternSyntaxProtocol`` to a node that is not a
+  ///   ``PatternSyntaxProtocol``, which will always fail. If the `syntaxType` argument is a generic type,
+  ///   constrain it to ``PatternSyntaxProtocol`` instead of ``SyntaxProtocol``.
+  @available(*, deprecated, message: "Type argument should be part of the 'PatternSyntaxProtocol' hierarchy")
   public func `as`<S: SyntaxProtocol>(_ syntaxType: S.Type) -> S? {
-    return nil
+    return S.init(self)
   }
   
 
-  /// Force-casts the current syntax node to a given node type from the different base node protocol hierarchy than ``PatternSyntaxProtocol``.
+  /// Force-casts the current syntax node to a given node type from a base node protocol hierarchy other than
+  /// ``PatternSyntaxProtocol``.
   ///
-  /// - Returns: This method will always trigger a runtime crash and never return.
+  /// - Returns: An instance of the specialized type.
   ///
-  /// - Note: This method overloads the general `cast` method and is marked as deprecated to produce a warning,
-  ///         informing the user that the cast will always fail.
-  /// - Warning: Invoking this method will lead to a fatal error.
-  @available(*, deprecated, message: "This cast will always fail")
+  /// - Warning: This function will crash if the cast is not possible. Use `as` to safely attempt a cast.
+  ///
+  /// - Note: In most cases, this is casting a ``PatternSyntaxProtocol`` to a node that is not a
+  ///   ``PatternSyntaxProtocol``, which will always fail. If the `syntaxType` argument is a generic type,
+  ///   constrain it to ``PatternSyntaxProtocol`` instead of ``SyntaxProtocol``.
+  @available(*, deprecated, message: "Type argument should be part of the 'PatternSyntaxProtocol' hierarchy")
   public func cast<S: SyntaxProtocol>(_ syntaxType: S.Type) -> S {
-    fatalError("\(Self.self) cannot be cast to \(S.self)")
+    return self.as(S.self)!
   }
 }
 

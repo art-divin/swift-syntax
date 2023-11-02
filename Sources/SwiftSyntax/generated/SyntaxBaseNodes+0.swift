@@ -57,6 +57,7 @@ extension DeclSyntaxProtocol {
   /// Force-casts the current syntax node to a given specialized syntax type.
   ///
   /// - Returns: An instance of the specialized type.
+  ///
   /// - Warning: This function will crash if the cast is not possible. Use `as` to safely attempt a cast.
   public func cast<S: DeclSyntaxProtocol>(_ syntaxType: S.Type) -> S {
     return self.as(S.self)!
@@ -66,9 +67,6 @@ extension DeclSyntaxProtocol {
   /// Checks if the current syntax node can be upcast to its base node type (``DeclSyntax``).
   ///
   /// - Returns: `true` since the node can always be upcast to its base node.
-  ///
-  /// - Note: This method overloads the general `is` method and is marked deprecated to produce a warning
-  ///         informing the user that the upcast will always succeed.
   @available(*, deprecated, message: "This cast will always succeed")
   public func `is`(_ syntaxType: DeclSyntax.Type) -> Bool {
     return true
@@ -78,9 +76,6 @@ extension DeclSyntaxProtocol {
   /// Attempts to upcast the current syntax node to its base node type (``DeclSyntax``).
   ///
   /// - Returns: The base node created from the current syntax node, as the node can always be upcast to its base type.
-  ///
-  /// - Note: This method overloads the general `as` method and is marked deprecated to produce a warning
-  ///         informing the user the upcast should be performed using the target base node's initializer.
   @available(*, deprecated, message: "Use `DeclSyntax.init` for upcasting")
   public func `as`(_ syntaxType: DeclSyntax.Type) -> DeclSyntax? {
     return DeclSyntax(self)
@@ -90,49 +85,53 @@ extension DeclSyntaxProtocol {
   /// Force-upcast the current syntax node to its base node type (``DeclSyntax``).
   ///
   /// - Returns: The base node created from the current syntax node, as the node can always be upcast to its base type.
-  ///
-  /// - Note: This method overloads the general `as` method and is marked deprecated to produce a warning
-  ///         informing the user the upcast should be performed using the target base node's initializer.
   @available(*, deprecated, message: "Use `DeclSyntax.init` for upcasting")
   public func cast(_ syntaxType: DeclSyntax.Type) -> DeclSyntax {
     return DeclSyntax(self)
   }
   
 
-  /// Checks if the current syntax node can be cast to a given node type from the different base node protocol hierarchy than ``DeclSyntaxProtocol``.
+  /// Checks if the current syntax node can be cast to a given node type from a base node protocol hierarchy other
+  /// than ``DeclSyntaxProtocol``.
   ///
-  /// - Returns: `false` since the node can not be cast to the node type from different base node protocol hierarchy than ``DeclSyntaxProtocol``.
+  /// - Returns: `true` if the node can be cast, `false` otherwise.
   ///
-  /// - Note: This method overloads the general `is` method and is marked as deprecated to produce a warning,
-  ///         informing the user that the cast will always fail.
-  @available(*, deprecated, message: "This cast will always fail")
+  /// - Note: In most cases, this is comparing a ``DeclSyntaxProtocol`` to a node that is not a
+  ///   ``DeclSyntaxProtocol``, which will always fail. If the `syntaxType` argument is a generic type,
+  ///   constrain it to ``DeclSyntaxProtocol`` instead of ``SyntaxProtocol``.
+  @available(*, deprecated, message: "Type argument should be part of the 'DeclSyntaxProtocol' hierarchy")
   public func `is`<S: SyntaxProtocol>(_ syntaxType: S.Type) -> Bool {
-    return false
+    return self.as(syntaxType) != nil
   }
   
 
-  /// Attempts to cast the current syntax node to a given node type from the different base node protocol hierarchy than ``DeclSyntaxProtocol``.
+  /// Attempts to cast the current syntax node to a given node type from the a base node protocol hierarchy other than
+  /// ``DeclSyntaxProtocol``.
   ///
-  /// - Returns: `nil` since the node can not be cast to the node type from different base node protocol hierarchy than ``DeclSyntaxProtocol``.
+  /// - Returns: An instance of the specialized type, or `nil` if the cast fails.
   ///
-  /// - Note: This method overloads the general `as` method and is marked as deprecated to produce a warning,
-  ///         informing the user that the cast will always fail.
-  @available(*, deprecated, message: "This cast will always fail")
+  /// - Note: In most cases, this is casting a ``DeclSyntaxProtocol`` to a node that is not a
+  ///   ``DeclSyntaxProtocol``, which will always fail. If the `syntaxType` argument is a generic type,
+  ///   constrain it to ``DeclSyntaxProtocol`` instead of ``SyntaxProtocol``.
+  @available(*, deprecated, message: "Type argument should be part of the 'DeclSyntaxProtocol' hierarchy")
   public func `as`<S: SyntaxProtocol>(_ syntaxType: S.Type) -> S? {
-    return nil
+    return S.init(self)
   }
   
 
-  /// Force-casts the current syntax node to a given node type from the different base node protocol hierarchy than ``DeclSyntaxProtocol``.
+  /// Force-casts the current syntax node to a given node type from a base node protocol hierarchy other than
+  /// ``DeclSyntaxProtocol``.
   ///
-  /// - Returns: This method will always trigger a runtime crash and never return.
+  /// - Returns: An instance of the specialized type.
   ///
-  /// - Note: This method overloads the general `cast` method and is marked as deprecated to produce a warning,
-  ///         informing the user that the cast will always fail.
-  /// - Warning: Invoking this method will lead to a fatal error.
-  @available(*, deprecated, message: "This cast will always fail")
+  /// - Warning: This function will crash if the cast is not possible. Use `as` to safely attempt a cast.
+  ///
+  /// - Note: In most cases, this is casting a ``DeclSyntaxProtocol`` to a node that is not a
+  ///   ``DeclSyntaxProtocol``, which will always fail. If the `syntaxType` argument is a generic type,
+  ///   constrain it to ``DeclSyntaxProtocol`` instead of ``SyntaxProtocol``.
+  @available(*, deprecated, message: "Type argument should be part of the 'DeclSyntaxProtocol' hierarchy")
   public func cast<S: SyntaxProtocol>(_ syntaxType: S.Type) -> S {
-    fatalError("\(Self.self) cannot be cast to \(S.self)")
+    return self.as(S.self)!
   }
 }
 
